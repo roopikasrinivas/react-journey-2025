@@ -184,5 +184,8 @@ const updatedBookWithoutSpread = {
 };
 
 // Update an object using spread operator;
-const updatedBook = { ...book1, moviePublicationDate: "20012-12-19" };
-updatedBook;
+const updatedBookWithSpreadOp = {
+  ...book1,
+  moviePublicationDate: "20012-12-19",
+};
+updatedBookWithSpreadOp;
