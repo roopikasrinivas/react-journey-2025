@@ -151,8 +151,12 @@ books;
 const book = getBook(2);
 book;
 
+// const title = book.title;
+// const author = book.author;
+
 //Destructuring Objects - use  {}
-const { title, author, pages, genres, hasMovieAdaptation } = book;
+const { title, author, pages, genres, hasMovieAdaptation, publicationDate } =
+  book;
 console.log(title, author, genres);
 
 // const primaryGenre = genres[0];
@@ -186,6 +190,58 @@ const updatedBookWithoutSpread = {
 // Update an object using spread operator;
 const updatedBookWithSpreadOp = {
   ...book1,
+  // Adding a new property
   moviePublicationDate: "20012-12-19",
+
+  // Overriding an existing property
+  pages: 1400,
 };
 updatedBookWithSpreadOp;
+
+// Template Literals
+const summary = `${title} by ${author} is a ${pages}-page long book, published in the year ${
+  publicationDate.split("-")[0]
+}. The book has ${hasMovieAdaptation ? "" : "not"} been adapated into a movie`;
+
+summary;
+
+// Ternary Operator
+const pagesCount = getBook(5).pages > 500 ? "over 500" : "less that 500";
+pagesCount;
+console.log(`The book has ${pagesCount} pages.`);
+
+// function
+
+function getYear(str) {
+  return str.split("-")[0];
+}
+
+console.log(getYear(publicationDate));
+
+// arrow function // need fucntion block and return if more than one line only
+const getAFYear = (str) => {
+  return str.split("-")[0];
+};
+console.log(getAFYear(publicationDate));
+
+//short circuiting
+console.log(true && "some string");
+console.log(false && "soem string");
+console.log(getBook(1).hasMovieAdaptation && "some string");
+console.log(getBook(2).hasMovieAdaptation && "some string");
+// for && when true check second paramter, when false, short circuit and exit
+// falsy values: 0 '' null undefined
+
+console.log("roop" && "message after");
+console.log(0 && "message after");
+const falsyEmpty = "";
+console.log(falsyEmpty && "message after");
+
+// for || when true short circut , when false check for second operand
+console.log(true || "message after");
+console.log("" || "message after");
+console.log(0 || "message after");
+console.log(false || "message after");
+console.log(null || "message after");
+console.log(getBook(5).translations.spanish || "okay");
+console.log(getBook(5).translations.kannada || "okay");
