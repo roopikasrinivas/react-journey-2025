@@ -146,21 +146,43 @@ function getBook(id) {
 //Destructuring Objects
 
 const books = getBooks();
-
 books;
 
 const book = getBook(2);
 book;
 
-//Destructuring Objects
-
+//Destructuring Objects - use  {}
 const { title, author, pages, genres, hasMovieAdaptation } = book;
 console.log(title, author, genres);
 
 // const primaryGenre = genres[0];
 // const secondaryGenre = genres[1];
 
-//Destructuring Arrays
+//Destructuring Arrays use []
 const [primaryGenre, secondaryGenre] = genres;
-
 console.log(primaryGenre, secondaryGenre);
+
+// Rest operator
+const [firstGenre, secondGenre, ...otherGenres] = genres;
+console.log(firstGenre, secondaryGenre, otherGenres);
+
+const genresArray = genres;
+genresArray;
+
+// Spread operator
+const newGenres = [...genres, "epic fantasy", "romantic comedy"];
+newGenres;
+
+const newGenres2 = ["epic fantasy", "romantic comedy", ...genres];
+newGenres2;
+
+// Update an object without using spread operator
+const book1 = getBook(1);
+const updatedBookWithoutSpread = {
+  book1,
+  moviePublicationDate: "20012-12-19",
+};
+
+// Update an object using spread operator;
+const updatedBook = { ...book1, moviePublicationDate: "20012-12-19" };
+updatedBook;
