@@ -387,3 +387,19 @@ booksAfterDelete;
 const booksAfterUpdate = booksAfterDelete.map((book) =>
   book.id == 1 ? { ...book, pages: 200 } : book
 );
+
+fetch("http://jsonplaceholder.typicode.com/todos/1")
+  .then((res) => res.json())
+  .then((data) => console.log(data));
+
+console.log("Okay next");
+
+async function getTodos() {
+  const res = await fetch("http://jsonplaceholder.typicode.com/todos/10");
+  const data = await res.json();
+  console.log(data);
+}
+
+getTodos();
+
+console.log("Okay next next");
