@@ -77,6 +77,7 @@ const data = [
         ratingsCount: 1142893,
         reviewsCount: 49701,
       },
+      librarything: {},
     },
   },
   {
@@ -170,6 +171,8 @@ console.log(primaryGenre, secondaryGenre);
 const [firstGenre, secondGenre, ...otherGenres] = genres;
 console.log(firstGenre, secondaryGenre, otherGenres);
 
+otherGenres;
+
 const genresArray = genres;
 genresArray;
 
@@ -186,6 +189,7 @@ const updatedBookWithoutSpread = {
   book1,
   moviePublicationDate: "20012-12-19",
 };
+updatedBookWithoutSpread;
 
 // Update an object using spread operator;
 const updatedBookWithSpreadOp = {
@@ -194,7 +198,7 @@ const updatedBookWithSpreadOp = {
   moviePublicationDate: "20012-12-19",
 
   // Overriding an existing property
-  pages: 1400,
+  pages: 999,
 };
 updatedBookWithSpreadOp;
 
@@ -218,15 +222,25 @@ function getYear(str) {
 
 console.log(getYear(publicationDate));
 
-// arrow function // need fucntion block and return if more than one line only
-const getAFYear = (str) => {
-  return str.split("-")[0];
-};
+const summary1 = `${title} by ${author} is a ${pages}-page long book, published in the year ${getYear(
+  publicationDate
+)}. The book has ${hasMovieAdaptation ? "" : "not"} been adapated into a movie`;
+
+summary1;
+
+// const getAFYear = (str) => str.split("-")[0];
+
+// Arrow function // need function block and return if more than one line only
+// const getAFYear = (str) => {
+//   return str.split("-")[0];
+// };
+
+const getAFYear = (str) => str.split("-")[0];
 console.log(getAFYear(publicationDate));
 
 //short circuiting
 console.log(true && "some string");
-console.log(false && "soem string");
+console.log(false && "some string");
 console.log(getBook(1).hasMovieAdaptation && "some string");
 console.log(getBook(2).hasMovieAdaptation && "some string");
 // for && when true check second paramter, when false, short circuit and exit
@@ -234,8 +248,8 @@ console.log(getBook(2).hasMovieAdaptation && "some string");
 
 console.log("roop" && "message after");
 console.log(0 && "message after");
-const falsyEmpty = "";
-console.log(falsyEmpty && "message after");
+console.log("" && "message after");
+console.log(null && "message after");
 
 // for || when true short circut , when false check for second operand
 console.log(true || "message after");
@@ -245,3 +259,131 @@ console.log(false || "message after");
 console.log(null || "message after");
 console.log(getBook(5).translations.spanish || "okay");
 console.log(getBook(5).translations.kannada || "okay");
+
+//Knowledge coalescing operator
+// returns second operand if the first operand is if and only null or undefined
+// for all other values like 0, it returns the first operand
+const count1 = getBook(3).reviews.librarything.reviewsCount ?? "no data";
+count1;
+
+const count2 = getBook(2).reviews.librarything.reviewsCount ?? "no data";
+count2;
+
+//Optional Chaining
+
+function getTotalReviewCount(book) {
+  const grCount = book.reviews.goodreads.reviewsCount;
+  const libCount = book.reviews.librarything.reviewsCount;
+  return grCount + libCount;
+}
+
+function getTotalReviewCount(book) {
+  const grCount = book?.reviews?.goodreads?.reviewsCount ?? 0;
+  const libCount = book?.reviews?.librarything?.reviewsCount ?? 0;
+  return grCount + libCount;
+}
+
+console.log(
+  `The total review count for the book is ${getTotalReviewCount(getBook(4))}`
+);
+
+// MAP FILTER REDUCE
+
+// MAP : TRANSFORM (You want to modify every item in an array and get a new array of the same length)
+
+// const books = getBooks();
+const newArray = [1, 2, 3, 4, 5].map((el) => el * 2);
+console.log(newArray);
+
+const titles = books.map((book) => book.title);
+titles;
+
+// const essentialData = books.map((book) => {
+//   return {
+//     title: book.title,
+//     author: book.author,
+//   };
+// });
+
+function getTotalReviewCount(book) {
+  const grCount = book?.reviews?.goodreads?.reviewsCount ?? 0;
+  const libCount = book?.reviews?.librarything?.reviewsCount ?? 0;
+  return grCount + libCount;
+}
+
+// MAP
+const essentialData = books.map((book) => ({
+  title: book.title,
+  author: book.author,
+  reviewCount: getTotalReviewCount(book),
+}));
+essentialData;
+
+// FILTER (You want to remove unwanted items based on a condition and get a smaller array)
+const longBooks = books.filter((book) => book.pages > 500);
+longBooks;
+
+const shortBooks = books.filter((book) => book.pages < 500);
+shortBooks;
+
+// Filter chaining
+const shortMovieAdaptation = books
+  .filter((book) => book.pages < 500)
+  .filter((book) => book.hasMovieAdaptation);
+shortMovieAdaptation;
+
+const adevntureBooks = books
+  .filter((book) => book.genres.includes("adventure"))
+  .map((book) => ({
+    title: book.title,
+    author: book.author,
+  }));
+adevntureBooks;
+
+// Reduce Method: You want to combine all elements into a single value (e.g., sum, object, string, etc.
+// Summarise calculating sums, averages, or transforming an array into a different data
+const pages1 = books.map((book) => book.pages);
+pages1;
+
+// const result = books.reduce((acc, book), 0);
+const totalPages = books.reduce((sum, book) => sum + book.pages, 0);
+totalPages;
+
+/// Arrays sort
+// slice prevents from changing the original array, creates copy array
+const arr = [3, 7, 1, 9, 6];
+// const sortedArr = arr.sort((a, b) => a - b);
+const sortedArrAsc = arr.slice().sort((a, b) => a - b);
+const sortedArrDesc = arr.slice().sort((a, b) => b - a);
+sortedArrAsc;
+sortedArrDesc;
+arr;
+
+const sortedByPagesDesc = books
+  .slice()
+  .sort((a, b) => b.pages - a.pages)
+  .map((book) => ({
+    title: book.title,
+    pages: book.pages,
+  }));
+sortedByPagesDesc;
+
+//Add book object to array
+
+const myNewBook = {
+  id: 6,
+  title: "Rework",
+  author: "David",
+};
+
+const booksAfterAdd = [...books, myNewBook];
+booksAfterAdd;
+
+// Delete Book: filter is used to remove Object from array
+const booksAfterDelete = booksAfterAdd.filter((book) => book.id !== 2);
+booksAfterDelete;
+
+// map is used to get the array of same size with manipulation
+const booksAfterUpdate = booksAfterDelete.map((book) =>
+  book.id == 1 ? { ...book, pages: 200 } : book
+);
