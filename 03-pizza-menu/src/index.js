@@ -73,43 +73,79 @@ function Header() {
 }
 //Menu
 function Menu() {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
+  console.log(pizzas);
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza
+      {/* always have a true false value, never have integer */}
+      {numPizzas > 0 ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza data={pizza} />
+          ))}
+        </ul>
+      ) : (
+        <p style={{ color: "red" }}>
+          <b>Sold Out!</b>
+        </p>
+      )}
+
+      {/* <Pizza
         name="Pizza Spinaci"
         ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
-        image="pizzas/spinaci.jpg"
+        photoName="pizzas/spinaci.jpg"
         price={10}
       />
       <Pizza
         name="Pizza Funghi"
         ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
-        image="pizzas/funghi.jpg"
+        photoName="pizzas/funghi.jpg"
         price={13}
-      />
+      /> */}
     </main>
   );
 }
 //Footer
 function Footer() {
+  const hour = new Date().getHours();
+  const openHour = 12;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
+  console.log(isOpen);
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}. We're currently open
+      {isOpen ? (
+        <div className="order">
+          <p style={{ color: "red" }}>
+            We're currently open until {closeHour}:00. Come visit us or order
+            online
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      ) : (
+        <div className="order">
+          <p style={{ color: "red" }}>
+            We're happy to welcome you between {openHour}:00 am and {closeHour}
+            :00 pm
+          </p>
+        </div>
+      )}
     </footer>
   );
 }
 
 function Pizza(pizza) {
   return (
-    <div className="pizza">
-      <img src={pizza.image} alt={pizza.name} />
+    <li className="pizza">
+      <img src={pizza.data.photoName} alt={pizza.data.name} />
       <div>
-        <h3>{pizza.name}</h3>
-        <p>{pizza.ingredients}</p>
-        <span>{pizza.price + "$"}</span>
+        <h3>{pizza.data.name}</h3>
+        <p>{pizza.data.ingredients}</p>
+        <span>{pizza.data.price + "$"}</span>
       </div>
-    </div>
+    </li>
   );
 }
 // React 18+
