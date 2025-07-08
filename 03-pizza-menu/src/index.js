@@ -4,6 +4,7 @@ import "./index.css";
 
 const pizzaData = [
   {
+    id: 1,
     name: "Focaccia",
     ingredients: "Bread with italian olive oil and rosemary",
     price: 6,
@@ -11,6 +12,7 @@ const pizzaData = [
     soldOut: false,
   },
   {
+    id: 2,
     name: "Pizza Margherita",
     ingredients: "Tomato and mozarella",
     price: 10,
@@ -18,6 +20,7 @@ const pizzaData = [
     soldOut: false,
   },
   {
+    id: 3,
     name: "Pizza Spinaci",
     ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
     price: 12,
@@ -25,6 +28,7 @@ const pizzaData = [
     soldOut: false,
   },
   {
+    id: 4,
     name: "Pizza Funghi",
     ingredients: "Tomato, mozarella, mushrooms, and onion",
     price: 12,
@@ -32,6 +36,7 @@ const pizzaData = [
     soldOut: false,
   },
   {
+    id: 5,
     name: "Pizza Salamino",
     ingredients: "Tomato, mozarella, and pepperoni",
     price: 15,
@@ -39,6 +44,7 @@ const pizzaData = [
     soldOut: true,
   },
   {
+    id: 6,
     name: "Pizza Prosciutto",
     ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
     price: 18,
@@ -73,19 +79,25 @@ function Header() {
 }
 //Menu
 function Menu() {
-  const pizzas = pizzaData;
-  const numPizzas = pizzas.length;
-  console.log(pizzas);
+  const numPizzas = pizzaData.length;
   return (
     <main className="menu">
       <h2>Our menu</h2>
+
       {/* always have a true false value, never have integer */}
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza data={pizza} />
-          ))}
-        </ul>
+        // React fragments: helps us group element without a trace in the DOM
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to chose from. All from
+            our stone oven, all organic, all delicious.{" "}
+          </p>
+          <ul className="pizzas">
+            {pizzaData.map((pizza) => (
+              <Pizza key={pizza.id} data={pizza} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p style={{ color: "red" }}>
           <b>Sold Out!</b>
@@ -109,41 +121,26 @@ function Menu() {
 }
 //Footer
 function Footer() {
-  const hour = new Date().getHours();
   const openHour = 12;
   const closeHour = 22;
-  const isOpen = hour >= openHour && hour <= closeHour;
-  console.log(isOpen);
   return (
     <footer className="footer">
-      {isOpen ? (
-        <div className="order">
-          <p style={{ color: "red" }}>
-            We're currently open until {closeHour}:00. Come visit us or order
-            online
-          </p>
-          <button className="btn">Order</button>
-        </div>
-      ) : (
-        <div className="order">
-          <p style={{ color: "red" }}>
-            We're happy to welcome you between {openHour}:00 am and {closeHour}
-            :00 pm
-          </p>
-        </div>
-      )}
+      <Order closeHour={closeHour} openHour={openHour} />
     </footer>
   );
 }
 
-function Pizza(pizza) {
+function Pizza({ data }) {
+  console.log(data);
+  //multiple returns. USe if condition when you want to return an entrire component
+  // if (data.soldOut) return null;
   return (
-    <li className="pizza">
-      <img src={pizza.data.photoName} alt={pizza.data.name} />
+    <li className={`pizza ${data.soldOut ? "sold-out" : ""}`}>
+      <img src={data.photoName} alt={data.name} />
       <div>
-        <h3>{pizza.data.name}</h3>
-        <p>{pizza.data.ingredients}</p>
-        <span>{pizza.data.price + "$"}</span>
+        <h3>{data.name}</h3>
+        <p>{data.ingredients}</p>
+        <span>{data.soldOut ? "SOLD OUT" : data.price + "$"}</span>
       </div>
     </li>
   );
@@ -157,3 +154,29 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+// Destructuring props needs curly braces: more efficient, and widely used
+function Order({ openHour, closeHour }) {
+  const hour = new Date().getHours();
+  const isOpen = hour >= openHour && hour <= closeHour;
+  console.log(isOpen);
+  return (
+    <div className="order">
+      {/* = Use Ternery Operator when you want to return some piece of jsx differently */}
+      {isOpen ? (
+        <>
+          <p style={{ color: "red" }}>
+            We're currently open from {openHour}:00 to {closeHour}:00. Come
+            visit us or order online
+          </p>
+          <button className="btn">Order</button>
+        </>
+      ) : (
+        <p style={{ color: "red" }}>
+          We're happy to welcome you between {openHour}:00 am and {closeHour}
+          :00 pm
+        </p>
+      )}
+    </div>
+  );
+}
