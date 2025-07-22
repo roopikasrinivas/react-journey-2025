@@ -83,42 +83,34 @@ function Profile(props) {
   );
 }
 
+function SkillsList() {
+  return (
+    <div className="skill-list">
+      {skills.map((skill) => {
+        return <Skill key={skill.id} skill={skill} />;
+      })}
+    </div>
+  );
+}
+
 function Skill({ skill }) {
   console.log(skill);
-  const level = skill.level;
-  const icon =
-    level === "advanced" ? "💪" : level === "intermediate" ? "👍" : "🧒";
   return (
     <li className="skill" style={{ backgroundColor: skill.color }}>
       <span>
         {skill.name} {skill.icon}
       </span>
-      {/* <icon>{skill.icon}</icon> */}
-      <icon>{icon}</icon>
+      <icon>
+        {/* {skill.level === "advanced"
+          ? "💪"
+          : skill.level === "intermediate"
+          ? "👍"
+          : "🧒"}  */}
+        {skill.level === "beginner" && "🧒"}
+        {skill.level === "intermediate" && "👍"}
+        {skill.level === "advanced" && "💪"}
+      </icon>
     </li>
-  );
-}
-
-function SkillsList() {
-  return (
-    <div className="skill-list">
-      {/* // return Skill list from skills // Return emoji based on condition advanced intermediate or beginner */}
-
-      {skills.map((skill) => {
-        return <Skill key={skill.id} skill={skill} />;
-      })}
-      {/* <Skill name="JavaScript" color="orange" icon="💛" />
-      <Skill name="HTML" color="green" icon="📄" />
-      <Skill name="CSS" color="aqua" icon="🎨" />
-      <Skill name="GitHub" color="grey" icon="🐙" />
-      <Skill name="React" color="skyblue" icon="⚛️" /> 
-      <Skill name="Node.js" color="lightgreen" icon="🌿" />
-      <Skill name="MongoDB" color="seagreen" icon="🍃" />
-      <Skill name="PostgreSQL" color="dodgerblue" icon="🐘" />
-      <Skill name="Docker" color="deepskyblue" icon="🐳" />
-      <Skill name="AWS" color="gold" icon="☁️" />
-      <Skill name="Git" color="crimson" icon="🔧" />  */}
-    </div>
   );
 }
 
