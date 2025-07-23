@@ -155,10 +155,7 @@ const book = getBook(1);
 // Destructuring objects
 const { title, author, pages, publicationDate, genres, hasMovieAdaptation } =
   book;
-title;
-author;
-
-genres;
+console.log(title, author, genres);
 
 // const primaryGenre = genres[0];
 // const secondaryGenre = genres[1];
@@ -233,7 +230,7 @@ console.log(getBook(2).reviews.librarything.reviewsCount);
 const countWrong = getBook(2).reviews.librarything.reviewsCount || "No Data";
 countWrong;
 
-// Knowledge coalescing operator returns second operand when firs
-// operand is null or undefined not when o or empty string
+// Knowledge coalescing operator returns second operand when first
+// operand is null or undefined not when 0 or empty string
 const count = getBook(2).reviews.librarything.reviewsCount ?? "no data";
 count;
