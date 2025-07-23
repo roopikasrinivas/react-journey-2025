@@ -307,11 +307,31 @@ const adventureBooks = books
 console.log(adventureBooks);
 
 // Array Reduce - sum, average etc
-const pagesAllBooks = books.reduce((acc, book) => acc + book.pages, 0);
-console.log(pagesAllBooks);
+const pagesOfAllBooks = books.reduce((acc, book) => acc + book.pages, 0);
+console.log(pagesOfAllBooks);
 
 const titlesOfAllBooks = books.reduce(
-  (appender, book) => appender + book.title + " ",
+  (acc, book) => acc + book.title + " ",
   ""
 );
 console.log(titlesOfAllBooks);
+
+// Array Sort
+
+const x = [3, 7, 9, 4, 1];
+const sorted = x.sort((a, b) => a - b);
+console.log(sorted);
+console.log(x); // sorts the original array (mutate the original array)
+
+// To avoid mutation, use slice method
+
+const y = [3, 7, 9, 4, 1];
+const sortedY = y.slice().sort((a, b) => b - a);
+console.log(sortedY);
+console.log(y);
+
+const sortedByPages = books
+  .slice()
+  .sort((a, b) => b.pages - a.pages)
+  .map((book) => ({ title: book.title, pages: book.pages }));
+console.log(sortedByPages);
