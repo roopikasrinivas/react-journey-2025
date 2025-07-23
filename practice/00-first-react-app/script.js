@@ -234,3 +234,84 @@ countWrong;
 // operand is null or undefined not when 0 or empty string
 const count = getBook(2).reviews.librarything.reviewsCount ?? "no data";
 count;
+
+function getTotalReviewCount(book) {
+  const goodreadsCount = book?.reviews?.goodreads?.reviewsCount ?? 0;
+  const librarythingCount = book?.reviews?.librarything?.reviewsCount ?? 0;
+  return goodreadsCount + librarythingCount;
+}
+
+console.log(getTotalReviewCount(getBook(1)));
+console.log(getTotalReviewCount(getBook(2)));
+console.log(getTotalReviewCount(getBook(3)));
+console.log(getTotalReviewCount(getBook(4)));
+console.log(getTotalReviewCount(getBook(5)));
+console.log(getTotalReviewCount(getBook(6)));
+console.log(getTotalReviewCount({}));
+
+// Array map returns new map without changing the original map
+const changedMap = [1, 2, 3, 4, 5].map((e) => e * 2);
+console.log(changedMap);
+
+const books = getBooks();
+const titles = books.map((book) => book.title);
+
+console.log(titles);
+
+const essentialData = books.map((book) => {
+  return {
+    title: book.title,
+    author: book.author,
+    reviewsCount: getTotalReviewCount(book),
+  };
+});
+
+console.log(essentialData);
+
+const essentialDataNew = books.map((book) => ({
+  title: book.title,
+  author: book.author,
+  reviewsCount: getTotalReviewCount(book),
+}));
+
+console.log(essentialDataNew);
+
+// Array filter : filter out the array
+
+const evenArray = [1, 2, 3, 4, 5, 6].filter((e) => e % 2 == 0);
+console.log(evenArray);
+
+const longBooks = books
+  .filter((book) => book.pages > 500)
+  .map((book) => ({
+    title: book.title,
+    author: book.author,
+    pages: book.pages,
+  }));
+console.log(longBooks);
+
+const shortBooksWithMovie = books
+  .filter((book) => book.pages < 500)
+  .filter((book) => book.hasMovieAdaptation);
+
+console.log(shortBooksWithMovie);
+
+const adventureBooks = books
+  .filter((book) => book.genres.includes("adventure"))
+  .map((book) => ({
+    title: book.title,
+    author: book.author,
+    genres: book.genres,
+  }));
+
+console.log(adventureBooks);
+
+// Array Reduce - sum, average etc
+const pagesAllBooks = books.reduce((acc, book) => acc + book.pages, 0);
+console.log(pagesAllBooks);
+
+const titlesOfAllBooks = books.reduce(
+  (appender, book) => appender + book.title + " ",
+  ""
+);
+console.log(titlesOfAllBooks);
