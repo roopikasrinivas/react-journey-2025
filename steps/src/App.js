@@ -10,24 +10,29 @@ export default function App() {
   //state and hooks
   const [step, setStep] = useState(1);
 
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(true);
 
   //event handlers
   function handlePrevious() {
     if (step > 1) {
-      setStep(step - 1);
+      setStep((s) => s - 1);
     }
   }
 
   function handleNext() {
     if (step < 3) {
-      setStep(step + 1);
+      // double update does not work when accessing the value directly
+      // always use callback function to use the current value of the state
+      // setStep(step + 1);
+      // setStep(step + 1);
+      setStep((s) => s + 1);
+      // setStep((s) => s + 1);
     }
   }
 
   return (
-    <div>
-      <button className="close" onClick={() => setOpen(!isOpen)}>
+    <>
+      <button className="close" onClick={() => setIsOpen((is) => !is)}>
         &times;
       </button>
 
@@ -61,6 +66,6 @@ export default function App() {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }
