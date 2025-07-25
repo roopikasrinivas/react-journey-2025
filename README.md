@@ -40,3 +40,8 @@ npm -v # Should print "10.9.2".
 3. Material Icon Theme
 4. One Monokai Theme
 5. Quokka.js
+
+=========
+
+Progress
+25-7-2025: States and Events
