@@ -21,10 +21,10 @@ function Counter() {
     setDayCounter(step * count);
   }, [step, count]);
 
-  const reset = () => {
+  function handleReset() {
     setStep(1);
     setCount(0);
-  };
+  }
 
   return (
     // <div className="counter-container">
@@ -50,6 +50,7 @@ function Counter() {
     <div className="counter-container">
       <div className="counter-row">
         <input
+          className="animated"
           type="range"
           min={0}
           max={10}
@@ -62,6 +63,7 @@ function Counter() {
       <div className="counter-row">
         <button onClick={() => setCount((c) => Number(c) - 1)}>-</button>
         <input
+          className="animated"
           type="text"
           value={count}
           onChange={(e) => setCount(Number(e.target.value))}
@@ -71,9 +73,15 @@ function Counter() {
 
       <DateString dayCounter={dayCounter} date={date} />
 
-      <button className="reset-button" onClick={reset}>
-        Reset
-      </button>
+      {count !== 0 || step !== 1 ? (
+        <>
+          <button className="reset-button" onClick={handleReset}>
+            Reset
+          </button>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
