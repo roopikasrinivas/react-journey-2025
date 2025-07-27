@@ -44,5 +44,7 @@ npm -v # Should print "10.9.2".
 =========
 Progress <br>
 25-7-2025: States, Events and Hooks
+<br>
 26-7-2025: Date Counter, State, Interactive Components
+<br>
 27-7-2025: State management, Lifting up state, where to place state
