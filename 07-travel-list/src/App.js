@@ -8,12 +8,34 @@ const initialItems = [
 ];
 
 export default function App() {
+  const [items, setItems] = useState(initialItems);
+
+  function handleAddItems(item) {
+    setItems((items) => [...items, item]);
+  }
+
+  function handleDeleteItem(id) {
+    setItems((items) => items.filter((item) => item.id !== id));
+  }
+
+  function handleCheckboxChange(id, checked) {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: checked } : item
+      )
+    );
+  }
+
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
-      <Stats />
+      <Form onAddItems={handleAddItems} />
+      <PackingList
+        items={items}
+        onDeleteItem={handleDeleteItem}
+        onSelectItem={handleCheckboxChange}
+      />
+      <Stats items={items} />
     </div>
   );
 }
@@ -22,7 +44,7 @@ function Logo() {
   return <h1>🏝️ Far Away 🧳</h1>;
 }
 
-function Form() {
+function Form({ onAddItems }) {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
 
@@ -40,7 +62,7 @@ function Form() {
 
     setDescription("");
     setQuantity(1);
-    initialItems.push(newItem);
+    onAddItems(newItem);
   }
 
   return (
@@ -67,33 +89,50 @@ function Form() {
   );
 }
 
-function PackingList() {
+function PackingList({ items, onDeleteItem, onSelectItem }) {
   return (
     <div className="list">
       <ul>
-        {initialItems.map((item) => (
-          <Item key={item.id} item={item} />
+        {items.map((item) => (
+          <Item
+            key={item.id}
+            item={item}
+            onDeleteItem={onDeleteItem}
+            onSelectItem={onSelectItem}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item }) {
+function Item({ item, onDeleteItem, onSelectItem }) {
   return (
     <li>
+      <input
+        type="checkbox"
+        checked={item.packed}
+        onChange={(e) => onSelectItem(item.id, e.target.checked)}
+      />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
-      <button>❌</button>
+      <button onClick={() => onDeleteItem(item.id)}>❌</button>
     </li>
   );
 }
 
-function Stats() {
+function Stats({ items }) {
+  const packedItems = items.reduce(
+    (acc, item) => acc + (item.packed ? 1 : 0),
+    0
+  );
+  const packedItemsPercent = Math.round((packedItems / items.length) * 100);
+  console.log(packedItems);
   return (
     <footer className="stats">
-      🧳 You have X items on your list, and you already packed X (X%)
+      🧳 You have {items.length} items on your list, and you already packed{" "}
+      {packedItems} ({packedItemsPercent})%
     </footer>
   );
 }
