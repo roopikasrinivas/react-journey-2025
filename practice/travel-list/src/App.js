@@ -74,7 +74,7 @@ function Form({ onAddItem }) {
 
   return (
     <form className="add-form" onSubmit={handleSubmit}>
-      <p>What do you need for your 😍 trip? </p>
+      <h3>What do you need for your 😍 trip? </h3>
       <select
         value={quantity}
         onChange={(e) => setQuantity(Number(e.target.value))}
@@ -87,6 +87,7 @@ function Form({ onAddItem }) {
       </select>
       <input
         type="text"
+        placeholder="Item..."
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       ></input>
@@ -176,7 +177,7 @@ function Stats({ items }) {
       <em>
         {packedItemsPercent === 100
           ? "You have got everything! Ready to go"
-          : `You have ${numItems} items on your list, and you already packed ${packedItems} (${packedItemsPercent}%) items`}
+          : ` 🧳 You have ${numItems} items on your list, and you already packed ${packedItems} (${packedItemsPercent}%) items`}
       </em>
     </footer>
   );
