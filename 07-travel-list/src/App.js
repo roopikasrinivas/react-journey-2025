@@ -26,6 +26,13 @@ export default function App() {
     );
   }
 
+  function handleClearItems() {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete all items?"
+    );
+    if (confirmed) setItems([]);
+  }
+
   return (
     <div className="app">
       <Logo />
@@ -34,6 +41,7 @@ export default function App() {
         items={items}
         onDeleteItem={handleDeleteItem}
         onSelectItem={handleCheckboxChange}
+        onClearItems={handleClearItems}
       />
       <Stats items={items} />
     </div>
@@ -89,19 +97,46 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items, onDeleteItem, onSelectItem }) {
+function PackingList({ items, onDeleteItem, onSelectItem, onClearItems }) {
+  const [sortBy, setSortBy] = useState("input");
+
+  let sortedItems;
+  if (sortBy === "input") sortedItems = items;
+
+  if (sortBy === "description") {
+    sortedItems = items
+      .slice()
+      .sort((a, b) => a.description.localeCompare(b.description));
+  }
+
+  if (sortBy === "packed") {
+    sortedItems = items
+      .slice()
+      .sort((a, b) => Number(a.packed) - Number(b.packed));
+  }
+
   return (
     <div className="list">
       <ul>
-        {items.map((item) => (
+        {sortedItems.map((item) => (
           <Item
             key={item.id}
             item={item}
             onDeleteItem={onDeleteItem}
             onSelectItem={onSelectItem}
+            onClearItems={onClearItems}
           />
         ))}
       </ul>
+
+      <div className="actions">
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="input">Sort by input order</option>
+          <option value="description">Sort by description</option>
+          <option value="packed">Sort by packed status</option>
+        </select>
+        <button onClick={onClearItems}>Clear List</button>
+      </div>
     </div>
   );
 }
@@ -123,6 +158,12 @@ function Item({ item, onDeleteItem, onSelectItem }) {
 }
 
 function Stats({ items }) {
+  if (!items.length)
+    return (
+      <footer className="stats">
+        <em>Start adding items to your packing list</em>
+      </footer>
+    );
   const packedItems = items.reduce(
     (acc, item) => acc + (item.packed ? 1 : 0),
     0
@@ -131,8 +172,10 @@ function Stats({ items }) {
   console.log(packedItems);
   return (
     <footer className="stats">
-      🧳 You have {items.length} items on your list, and you already packed{" "}
-      {packedItems} ({packedItemsPercent})%
+      <em>
+        🧳 You have {items.length} items on your list, and you already packed{" "}
+        {packedItems} ({packedItemsPercent})%
+      </em>
     </footer>
   );
 }
