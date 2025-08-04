@@ -1,0 +1,23 @@
+.App {
+  margin: 10px;
+}
+
+.bill {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.bill h3 {
+  margin-right: 10px;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.rating h3 {
+  margin-right: 10px;
+}
