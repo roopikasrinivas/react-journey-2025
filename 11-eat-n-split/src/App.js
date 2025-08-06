@@ -41,10 +41,12 @@ export default function App() {
 
   function handleAddFriend(friend) {
     setFriends((friends) => [...friends, friend]);
+    handleShowAddFriend();
   }
 
   function handleOpenSplitBill(friend) {
-    setShowSplitBill((showSplitBill) => !showSplitBill);
+    if (showSplitBill === false) setShowSplitBill(true);
+    // setShowSplitBill((showSplitBill) => !showSplitBill);
     setSelectedFriend(friend);
   }
 
@@ -59,6 +61,7 @@ export default function App() {
     });
 
     setFriends(newFriends);
+    setShowSplitBill(false);
   }
 
   return (
@@ -197,7 +200,7 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
       <label>🔆Who is paying the bill</label>
       <select value={paysBill} onChange={(e) => setPaysBill(e.target.value)}>
         <option value="0">You</option>
-        <option value="1">Friend</option>
+        <option value="1">{selectedFriend.name}</option>
       </select>
 
       <Button>Split Bill</Button>
