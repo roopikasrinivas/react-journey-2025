@@ -1,4 +1,4 @@
-// import 'useState' from 'react';
+import { useState } from "react";
 const initialFriends = [
   {
     id: 118836,
@@ -21,10 +21,22 @@ const initialFriends = [
 ];
 
 export default function App() {
+  const [addFriend, setAddFriend] = useState(false);
+
+  function handleAddFriend() {
+    setAddFriend((addFriend) => !addFriend);
+  }
   return (
     <div className="app">
       <div className="sidebar">
         <FriendsList />
+        {!addFriend && <Button onClick={handleAddFriend}>Add friend</Button>}
+        {addFriend && (
+          <>
+            <AddFriend />
+            <Button onClick={handleAddFriend}>Close</Button>
+          </>
+        )}
       </div>
     </div>
   );
@@ -56,7 +68,32 @@ function Friend({ friend }) {
           {friend.name} owes you {Math.abs(friend.balance)}$
         </p>
       )}
-      {friend.balance === 0 && <p>You both are even</p>}
+      {friend.balance === 0 && <p>You and {friend.name} are even</p>}
+
+      <Button>Select</Button>
     </li>
+  );
+}
+
+function AddFriend() {
+  return (
+    <form className="form-add-friend">
+      <label>👫 Friend name</label>
+      <input type="text"></input>
+      <label>📸 Image URL</label>
+      <input
+        type="text"
+        placeholder="https://i.pravatar.cc/48?u=118836"
+      ></input>
+      <Button>Add</Button>
+    </form>
+  );
+}
+
+function Button({ onClick, children }) {
+  return (
+    <button className="button" onClick={() => onClick()}>
+      {children}
+    </button>
   );
 }
