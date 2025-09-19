@@ -169,11 +169,11 @@ function FormSplitBill({ friend, onSplitBill }) {
     <form className="form-split-bill" onSubmit={handleSubmit}>
       <h2>Split a bill with {friend.name}</h2>
       <label>💲Bill value</label>
-      <input type="text" onChange={(e) => setBill(e.target.value)} />
+      <input type="text" onChange={(e) => setBill(Number(e.target.value))} />
       <label>🧍‍♂️Your expense</label>
-      <input type="text" onChange={(e) => setExpense(e.target.value)} />
+      <input type="text" onChange={(e) => setExpense(Number(e.target.value))} />
       <label>🙌Clark's expense</label>
-      <input type="text" disabled />
+      <input type="text" disabled value={total} />
       <label>🤑Who is paying the bill?</label>
       <select onChange={(e) => setPaysBill(e.target.value)}>
         <option value="0">You</option>
